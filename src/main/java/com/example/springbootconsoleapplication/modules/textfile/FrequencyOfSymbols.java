@@ -1,6 +1,7 @@
 package com.example.springbootconsoleapplication.modules.textfile;
 
 import com.example.springbootconsoleapplication.modules.Module;
+import com.example.springbootconsoleapplication.utils.FileUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -18,8 +19,8 @@ public class FrequencyOfSymbols implements Module {
             "odt", "fb2", "epub", "mobi", "djvu");
 
     @Override
-    public boolean isSupportedFormat(String extension) {
-        return formats.contains(extension.toLowerCase(Locale.ROOT));
+    public boolean isSupportedFormat(File file) {
+        return formats.contains(FileUtils.getFileExtension(file.getName()).toLowerCase(Locale.ROOT));
     }
 
     @Override

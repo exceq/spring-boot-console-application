@@ -1,11 +1,9 @@
 package com.example.springbootconsoleapplication.modules;
 
-import org.springframework.stereotype.Component;
-
 import java.io.File;
 
 public interface Module {
-    boolean isSupportedFormat(String extension);
+    boolean isSupportedFormat(File file);
 
     String getFunctionDescription();
 

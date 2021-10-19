@@ -29,7 +29,7 @@ public class FilesService {
 
     private int askUserForNumberOfFunction(int max) {
         while (true) {
-            System.out.printf("Enter number of function (%s-%s):%n", 1, max);
+            System.out.printf("Enter number of function (%s-%s):", 1, max);
             String input = System.console().readLine();
             int number;
             try {
@@ -46,7 +46,7 @@ public class FilesService {
     }
 
     private void printAvailableModules(File file, Module[] modules) {
-        System.out.println("Available functions for file " + file.getPath() + " :");
+        System.out.println("Available functions for file " + file.getAbsolutePath() + ":");
         for (int i = 0; i < modules.length; i++) {
             System.out.println((i + 1) + ". " + modules[i].getFunctionDescription());
         }
@@ -54,18 +54,18 @@ public class FilesService {
 
 
     private Module[] getAvailableModules(File file, ApplicationContext ctx) {
-        String ext = getExtension(file.getName());
         Map<String, Module> moduleMap = ctx.getBeansOfType(Module.class);
         return moduleMap.values()
                 .stream()
-                .filter(module -> module.isSupportedFormat(ext))
+                .filter(module -> module.isSupportedFormat(file))
                 .toArray(Module[]::new);
     }
 
-
-    private String getExtension(String filename) {
-        if (!filename.contains("."))
+    private String getExtension(File file) {
+        String filename = file.getName();
+        if (file.isDirectory() || filename.contains("."))
             return "";
         return filename.substring(filename.lastIndexOf('.') + 1);
     }
+
 }
