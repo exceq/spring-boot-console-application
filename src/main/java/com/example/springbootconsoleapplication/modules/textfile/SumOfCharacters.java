@@ -5,22 +5,28 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 
 @Component
-public class CountRowsModule extends AbstractTextModule {
-
+public class SumOfCharacters extends AbstractTextModule {
     @Override
     public String getFunctionDescription() {
-        return "Returns count of rows in file.";
+        return "Returns sum of Characters in file.";
     }
 
     @Override
     public void function(File file) {
+        List<String> lines;
         try {
-            int count = Files.readAllLines(file.toPath()).size();
-            System.out.println("Count of lines in file: "+count);
+            lines = Files.readAllLines(file.toPath());
         } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
+
+        int sum = lines.stream()
+                .flatMapToInt(String::chars)
+                .sum();
+        System.out.println("Sum of the file Characters: " + sum);
     }
 }

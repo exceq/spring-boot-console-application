@@ -60,12 +60,4 @@ public class FilesService {
                 .filter(module -> module.isSupportedFormat(file))
                 .toArray(Module[]::new);
     }
-
-    private String getExtension(File file) {
-        String filename = file.getName();
-        if (file.isDirectory() || filename.contains("."))
-            return "";
-        return filename.substring(filename.lastIndexOf('.') + 1);
-    }
-
 }

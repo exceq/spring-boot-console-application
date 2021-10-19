@@ -1,27 +1,15 @@
 package com.example.springbootconsoleapplication.modules.textfile;
 
-import com.example.springbootconsoleapplication.modules.Module;
-import com.example.springbootconsoleapplication.utils.FileUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 @Component
-public class FrequencyOfSymbols implements Module {
-
-    List<String> formats = Arrays.asList("txt", "doc", "docx", "rtf", "html", "pdf",
-            "odt", "fb2", "epub", "mobi", "djvu");
-
-    @Override
-    public boolean isSupportedFormat(File file) {
-        return formats.contains(FileUtils.getFileExtension(file.getName()).toLowerCase(Locale.ROOT));
-    }
+public class FrequencyOfSymbols extends AbstractTextModule {
 
     @Override
     public String getFunctionDescription() {
@@ -30,11 +18,12 @@ public class FrequencyOfSymbols implements Module {
 
     @Override
     public void function(File file) {
-        List<String> lines = null;
+        List<String> lines;
         try {
             lines = Files.readAllLines(file.toPath());
         } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
 
         HashMap<Character, Integer> symbols = lines.stream()
@@ -47,5 +36,7 @@ public class FrequencyOfSymbols implements Module {
                 .sorted((x,y)->y.getValue().compareTo(x.getValue()))
                 .map(entry -> entry.getKey() + " -> " + entry.getValue())
                 .forEach(System.out::println);
+
+        //TODO print if empty
     }
 }
