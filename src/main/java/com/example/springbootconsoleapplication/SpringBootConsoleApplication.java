@@ -1,11 +1,12 @@
 package com.example.springbootconsoleapplication;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
+
+import java.io.FileNotFoundException;
 
 // https://www.baeldung.com/spring-boot-console-app
 
@@ -13,21 +14,24 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:application.properties")
 public class SpringBootConsoleApplication implements CommandLineRunner {
 
-	private static Logger LOG = LoggerFactory
-      .getLogger(SpringBootConsoleApplication.class);
+    @Autowired
+    FilesService filesService;
 
     public static void main(String[] args) {
-        LOG.info("STARTING THE APPLICATION");
         SpringApplication.run(SpringBootConsoleApplication.class, args);
-        LOG.info("APPLICATION FINISHED");
     }
 
-	@Override
-	public void run(String... args) throws Exception {
-		LOG.info("EXECUTING : command line runner");
-
-		for (int i = 0; i < args.length; ++i) {
-			LOG.info("args[{}]: {}", i, args[i]);
-		}
-	}
+    @Override
+    public void run(String... args) {
+        if (args.length != 1) {
+            System.out.println("Incorrect number of arguments.");
+            System.out.println("Please enter filename.");
+            return;
+        }
+        try {
+            filesService.executeFunction(args[0]);
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.");
+        }
+    }
 }
