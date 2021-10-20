@@ -29,11 +29,11 @@ public class FilesService {
 
     private int askUserForNumberOfFunction(int max) {
         while (true) {
-            System.out.printf("Enter number of function (%s-%s):", 1, max);
+            System.out.printf("Enter number of function (%d-%d): ", 1, max);
             String input = System.console().readLine();
             int number;
             try {
-                number = Integer.parseInt(input);
+                number = Integer.parseInt(input.strip());
                 if (number < 1 || number > max) {
                     System.out.println("Incorrect number");
                     continue;
