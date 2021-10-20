@@ -20,7 +20,7 @@ public class SumOfCharacters extends AbstractTextModule {
         try {
             lines = Files.readAllLines(file.toPath());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error with reading file " + file.getAbsolutePath());
             return;
         }
 

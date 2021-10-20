@@ -20,7 +20,7 @@ public class CountRowsModule extends AbstractTextModule {
             int count = Files.readAllLines(file.toPath()).size();
             System.out.println("Count of lines in file: "+count);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error with reading file " + file.getAbsolutePath());
         }
     }
 }

@@ -22,21 +22,23 @@ public class FrequencyOfSymbols extends AbstractTextModule {
         try {
             lines = Files.readAllLines(file.toPath());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error with reading file " + file.getAbsolutePath());
             return;
         }
 
         HashMap<Character, Integer> symbols = lines.stream()
                 .flatMapToInt(String::chars)
                 .mapToObj(x -> (char) x)
-                .collect(HashMap::new, (m, c) -> m.put(c, m.getOrDefault(c, 0) + 1), HashMap::putAll);
-
-        symbols.entrySet()
-                .stream()
-                .sorted((x,y)->y.getValue().compareTo(x.getValue()))
-                .map(entry -> entry.getKey() + " -> " + entry.getValue())
-                .forEach(System.out::println);
-
-        //TODO print if empty
+                .collect(HashMap::new,
+                        (m, c) -> m.put(c, m.getOrDefault(c, 0) + 1),
+                        HashMap::putAll);
+        if (symbols.keySet().size() == 0)
+            System.out.println("This file is empty.");
+        else
+            symbols.entrySet()
+                    .stream()
+                    .sorted((x, y) -> y.getValue().compareTo(x.getValue()))
+                    .map(entry -> entry.getKey() + " -> " + entry.getValue())
+                    .forEach(System.out::println);
     }
 }
