@@ -46,6 +46,7 @@ public class FilesService {
     }
 
     private void printAvailableModules(File file, Module[] modules) {
+        System.out.println("-----------------------------------------------------");
         System.out.println("Available functions for file " + file.getAbsolutePath() + ":");
         for (int i = 0; i < modules.length; i++) {
             System.out.println((i + 1) + ". " + modules[i].getFunctionDescription());
